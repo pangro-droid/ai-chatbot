@@ -128,3 +128,45 @@ st.markdown("""
         color: #ffffff !important;
                 font-weight: bold;
     }
+        </style>
+    """, unsafe_allow_html=True)
+
+# Initialize OpenAI client
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+# Sidebar with info
+with st.sidebar:
+    st.title('💬 AI Chatbot')
+    st.write("This is a simple AI chatbot powered by OpenAI's GPT-4o mini model. Ask me anything!")
+    
+    if st.button('Clear Chat History'):
+        st.session_state.messages = []
+        st.rerun()
+
+# Initialize chat history
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Display chat messages
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# Chat input
+if prompt := st.chat_input("What would you like to know?"):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    
+    with st.chat_message("assistant"):
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
+            ],
+            stream=True,
+        )
+        full_response = st.write_stream(response)
+    
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
