@@ -38,6 +38,47 @@ st.markdown("""
         z-index: 0;
     }
     
+    /* Planet decoration */
+    .stApp::after {
+        content: '';
+        position: fixed;
+        bottom: -100px;
+        right: -100px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle at 30% 30%, #4a5f8f, #1a2332);
+        border-radius: 50%;
+        box-shadow: 0 0 100px rgba(74, 95, 143, 0.4);
+        z-index: 0;
+    }
+    
+    /* More visible stars */
+    .stApp::before {
+        box-shadow:
+            100px 100px white,
+            200px 150px white,
+            300px 250px white,
+            400px 100px white,
+            500px 300px white,
+            600px 200px white,
+            700px 400px white,
+            800px 150px white,
+            900px 350px white,
+            1000px 250px white,
+            150px 450px white,
+            250px 350px white,
+            350px 500px white,
+            450px 400px white,
+            550px 550px white,
+            650px 450px white,
+            750px 600px white,
+            850px 500px white;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+    }
+    
     @keyframes stars {
         0% { background-position: 0% 0%; }
         100% { background-position: 100% 100%; }
