@@ -12,7 +12,7 @@ st.markdown("""
     <style>
     /* Main app background with space gradient */
     .stApp {
-        background: linear-gradient(135deg, #2d3561 0%, #4a5b8c 25%, #5d6fa8 50%, #4a5b8c 75%, #2d3561 100%);
+        background: linear-gradient(135deg, #0c0e27 0%, #1a1b3d 25%, #2d1b4e 50%, #1a1b3d 75%, #0c0e27 100%);
         background-attachment: fixed;
     }
     
@@ -38,47 +38,6 @@ st.markdown("""
         z-index: 0;
     }
     
-    /* Planet decoration */
-    .stApp::after {
-        content: '';
-        position: fixed;
-        bottom: -100px;
-        right: -100px;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle at 30% 30%, #4a5f8f, #1a2332);
-        border-radius: 50%;
-        box-shadow: 0 0 100px rgba(74, 95, 143, 0.4);
-        z-index: 0;
-    }
-    
-    /* More visible stars */
-    .stApp::before {
-        box-shadow:
-            100px 100px white,
-            200px 150px white,
-            300px 250px white,
-            400px 100px white,
-            500px 300px white,
-            600px 200px white,
-            700px 400px white,
-            800px 150px white,
-            900px 350px white,
-            1000px 250px white,
-            150px 450px white,
-            250px 350px white,
-            350px 500px white,
-            450px 400px white,
-            550px 550px white,
-            650px 450px white,
-            750px 600px white,
-            850px 500px white;
-        width: 2px;
-        height: 2px;
-        background: white;
-        border-radius: 50%;
-    }
-    
     @keyframes stars {
         0% { background-position: 0% 0%; }
         100% { background-position: 100% 100%; }
@@ -102,71 +61,66 @@ st.markdown("""
         background-color: rgba(20, 20, 40, 0.8);
         backdrop-filter: blur(5px);
     }
-    
-    
-    /* Force white text on ALL elements */
-    .stApp, .stApp * {
-        color: #ffffff !important;
-                font-weight: bold;
-    }
-    
-    /* Title styling */
-    h1 {
-        color: #ffffff !important;
-                font-weight: bold;
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-    }
-    
-    /* Chat message text */
-    .stChatMessage, .stChatMessage *, [data-testid="stChatMessage"], [data-testid="stChatMessage"] * {
-        color: #ffffff !important;
-                font-weight: bold;
-    }
-    
-    /* Sidebar text */
-    [data-testid="stSidebar"], [data-testid="stSidebar"] * {
-        color: #ffffff !important;
-                font-weight: bold;
-    }
-        </style>
-    """, unsafe_allow_html=True)
+    </style>
+""", unsafe_allow_html=True)
 
 # Initialize OpenAI client
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-# Sidebar with info
-with st.sidebar:
-    st.title('💬 AI Chatbot')
-    st.write("This is a simple AI chatbot powered by OpenAI's GPT-4o mini model. Ask me anything!")
-    
-    if st.button('Clear Chat History'):
-        st.session_state.messages = []
-        st.rerun()
-
-# Initialize chat history
+# Title
+st.title('💬 AI Chatbot')         
+# Initialize chat history in session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display chat messages
+# Display chat history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
 # Chat input
 if prompt := st.chat_input("What would you like to know?"):
+    # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
+    
+    # Display user message
     with st.chat_message("user"):
         st.markdown(prompt)
     
+    # Get AI response
     with st.chat_message("assistant"):
+        message_placeholder = st.empty()
+        full_response = ""
+        
+        # Call OpenAI API
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
             ],
-            stream=True,
+            stream=True
         )
-        full_response = st.write_stream(response)
+        
+        # Stream the response
+        for chunk in response:
+            if chunk.choices[0].delta.content is not None:
+                full_response += chunk.choices[0].delta.content
+                message_placeholder.markdown(full_response + "▌")
+        
+        message_placeholder.markdown(full_response)
     
+    # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+# Sidebar with info and clear button
+with st.sidebar:
+    st.header("About")
+    st.info(
+        "This is a simple AI chatbot powered by OpenAI's GPT-4o-mini model. "
+        "Ask me anything!"
+    )
+    
+    if st.button("Clear Chat History"):
+        st.session_state.messages = []
+        st.rerun()
