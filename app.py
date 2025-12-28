@@ -11,8 +11,7 @@ st.set_page_config(
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Title
-st.title("💬 AI Chatbot")#"messages" not in st.session_state:
-
+st.title('💬 AI Chatbot')
 # Initialize chat history in session state
 if 
     st.session_state.messages = []
