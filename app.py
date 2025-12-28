@@ -12,7 +12,7 @@ st.markdown("""
     <style>
     /* Main app background with space gradient */
     .stApp {
-        background: linear-gradient(135deg, #0c0e27 0%, #1a1b3d 25%, #2d1b4e 50%, #1a1b3d 75%, #0c0e27 100%);
+                background: linear-gradient(135deg, #5a6fa8 0%, #7b8fc4 25%, #99aed9 50%, #7b8fc4 75%, #5a6fa8 100%);
         background-attachment: fixed;
     }
     
@@ -60,6 +60,12 @@ st.markdown("""
     .stChatInputContainer {
         background-color: rgba(20, 20, 40, 0.8);
         backdrop-filter: blur(5px);
+    }
+        
+    /* Bold white text for all content */
+    * {
+        color: white !important;
+        font-weight: bold !important;
     }
     </style>
 """, unsafe_allow_html=True)
