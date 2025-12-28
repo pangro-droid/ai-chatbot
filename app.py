@@ -7,6 +7,63 @@ st.set_page_config(
     page_icon="💬",    layout="wide"
 )
 
+# Custom CSS for space-themed background
+st.markdown("""
+    <style>
+    /* Main app background with space gradient */
+    .stApp {
+        background: linear-gradient(135deg, #0c0e27 0%, #1a1b3d 25%, #2d1b4e 50%, #1a1b3d 75%, #0c0e27 100%);
+        background-attachment: fixed;
+    }
+    
+    /* Animated stars */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            radial-gradient(2px 2px at 20% 30%, white, transparent),
+            radial-gradient(2px 2px at 60% 70%, white, transparent),
+            radial-gradient(1px 1px at 50% 50%, white, transparent),
+            radial-gradient(1px 1px at 80% 10%, white, transparent),
+            radial-gradient(2px 2px at 90% 60%, white, transparent),
+            radial-gradient(1px 1px at 33% 80%, white, transparent),
+            radial-gradient(1px 1px at 15% 90%, white, transparent);
+        background-size: 200% 200%;
+        animation: stars 60s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    @keyframes stars {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 100% 100%; }
+    }
+    
+    /* Make content visible on top of background */
+    section[data-testid="stSidebar"] {
+        background-color: rgba(15, 15, 35, 0.85);
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Chat messages styling */
+    .stChatMessage {
+        background-color: rgba(30, 30, 60, 0.7) !important;
+        backdrop-filter: blur(5px);
+        border-radius: 10px;
+    }
+    
+    /* Input box styling */
+    .stChatInputContainer {
+        background-color: rgba(20, 20, 40, 0.8);
+        backdrop-filter: blur(5px);
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Initialize OpenAI client
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
