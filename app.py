@@ -61,6 +61,15 @@ st.markdown("""
         background-color: rgba(20, 20, 40, 0.8);
         backdrop-filter: blur(5px);
     }
+    
+    /* Improve text visibility on dark background */
+    h1, h2, h3, p, div, span {
+        color: #ffffff !important;
+    }
+    
+    .stMarkdown {
+        color: #ffffff !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
