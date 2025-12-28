@@ -12,7 +12,7 @@ st.markdown("""
     <style>
     /* Main app background with space gradient */
     .stApp {
-        background: linear-gradient(135deg, #0c0e27 0%, #1a1b3d 25%, #2d1b4e 50%, #1a1b3d 75%, #0c0e27 100%);
+        background: linear-gradient(135deg, #2d3561 0%, #4a5b8c 25%, #5d6fa8 50%, #4a5b8c 75%, #2d3561 100%);
         background-attachment: fixed;
     }
     
@@ -107,20 +107,24 @@ st.markdown("""
     /* Force white text on ALL elements */
     .stApp, .stApp * {
         color: #ffffff !important;
+                font-weight: bold;
     }
     
     /* Title styling */
     h1 {
         color: #ffffff !important;
+                font-weight: bold;
         text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
     }
     
     /* Chat message text */
     .stChatMessage, .stChatMessage *, [data-testid="stChatMessage"], [data-testid="stChatMessage"] * {
         color: #ffffff !important;
+                font-weight: bold;
     }
     
     /* Sidebar text */
     [data-testid="stSidebar"], [data-testid="stSidebar"] * {
         color: #ffffff !important;
+                font-weight: bold;
     }
