@@ -60,6 +60,13 @@ st.markdown("""
     .stChatInputContainer {
         background-color: rgba(20, 20, 40, 0.8);
         backdrop-filter: blur(5px);
+        }
+
+    /* Black text in input */
+    .stChatInputContainer input {
+        color: black !important;
+
+        }
     }
         
     /* Bold white text for all content */
