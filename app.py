@@ -103,18 +103,24 @@ st.markdown("""
         backdrop-filter: blur(5px);
     }
     
-    /* Improve text visibility on dark background */
-    /* Make ALL text white for visibility on dark background */
-    * {
+    
+    /* Force white text on ALL elements */
+    .stApp, .stApp * {
         color: #ffffff !important;
     }
     
-    /* Ensure title and headers are white */
-    .main h1, .main h2, .main h3, .main h4, .main h5, .main h6 {
+    /* Title styling */
+    h1 {
+        color: #ffffff !important;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Chat message text */
+    .stChatMessage, .stChatMessage *, [data-testid="stChatMessage"], [data-testid="stChatMessage"] * {
         color: #ffffff !important;
     }
     
-    /* Sidebar text white */
-    .css-1d391kg, [data-testid="stSidebar"], [data-testid="stSidebar"] * {
+    /* Sidebar text */
+    [data-testid="stSidebar"], [data-testid="stSidebar"] * {
         color: #ffffff !important;
     }
